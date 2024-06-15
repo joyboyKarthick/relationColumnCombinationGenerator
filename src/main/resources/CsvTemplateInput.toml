@@ -1,0 +1,24 @@
+[configurations]
+destination_source = "output.csv"
+
+[[configurations.csv_column_source]]
+file_path = "src/test/resources/username-password-recovery-code.csv"
+column_name = "Username"
+identifier = "Username"
+
+[[configurations.csv_column_source]]
+file_path = "src/test/resources/username-password-recovery-code.csv"
+column_name = "Location"
+identifier = "Location"
+
+[[configurations.csv_column_source]]
+file_path = "src/test/resources/username-password-recovery-code.csv"
+column_name = "Recovery code"
+identifier = "Recovery code"
+
+[[criteria.skip_column_criteria]]
+skipped_columns_identifier = ["Location","Username"]
+criteria_string = "(Recovery code equal rb9012)"
+
+[[criteria.skip_value_criteria]]
+criteria_string = "(Username equal jenkins46 and  Location equal new delhi)"

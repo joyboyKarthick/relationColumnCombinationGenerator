@@ -1,29 +1,29 @@
-package org.joyboy.permutationgenerator.models;
+package org.joyboy.permutationgenerator.components.columnsources;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public  class BasicColumnSource<K, T extends Iterable<K>> implements ColumnSource
+public class BasicColumnSource<K, T extends Iterable<K>> implements ColumnSource<K, T>
 {
 
-	Iterable<K> columnValues;
+	T columnValues;
 	String id;
 	Optional<Function<K, Boolean>> valueValidator = Optional.empty();
 
-	public BasicColumnSource(Iterable<K> columnValuesSource, String id)
+	public BasicColumnSource(T columnValuesSource, String id)
 	{
 		this.columnValues = columnValuesSource;
 		this.id = id;
 	}
 
-	BasicColumnSource<K,T> builderPattern(Consumer<BasicColumnSource> consumerFunction)
+	BasicColumnSource<K, T> builderPattern(Consumer<BasicColumnSource> consumerFunction)
 	{
 		consumerFunction.accept(this);
 		return this;
 	}
 
-	@Override public Iterable getColumnValues()
+	@Override public T getColumnValues()
 	{
 		return this.columnValues;
 	}

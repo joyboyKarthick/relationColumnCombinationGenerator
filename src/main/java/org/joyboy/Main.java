@@ -1,42 +1,32 @@
 package org.joyboy;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.joyboy.permutationgenerator.models.BasicColumnSource;
-import org.joyboy.permutationgenerator.models.ColumnCriteriaBuilder;
-import org.joyboy.permutationgenerator.models.QueryableConfigurablePermutationGenerator;
+import org.joyboy.exceptions.JoyBoyException;
+import org.joyboy.joyboydatastructures.JoyboyTriple;
+import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.permutationgenerator.templates.CSVQueryablePermutationGeneratorTemplate;
+import org.joyboy.utils.JoyboyUtils;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
-		BasicColumnSource<Integer, List<Integer>> column1 = new BasicColumnSource<>(Arrays.asList(1, 2, 3), "Column 1 id");
-		BasicColumnSource<String, List<String>> column2 = new BasicColumnSource<>(Arrays.asList("@", "$", "&"), "Column 2 id");
-		BasicColumnSource<String, List<String>> column3 = new BasicColumnSource<>(Arrays.asList("messi", "Ronaldo", "Neymer"), "Column 3 id");
-		BasicColumnSource<String, List<String>> column4 = new BasicColumnSource<>(Arrays.asList("luffy", "goku", "zoro"), "Column 3 id");
+		String confToml = "src/main/resources/CsvTemplateInput.toml";
+		String criteriaString = "(((true | (true & false & true))|(false & true))| false)";
+		String processedCriteriaString = criteriaString.replace(" or ", " | ").replace(" and ", " & ");
+		Boolean value = JoyboyUtils.parseParenthesesCriteriaString(processedCriteriaString, (parsedCriteria) -> parsedColumnHandler(parsedCriteria));
+		System.out.println(value);
 
-		QueryableConfigurablePermutationGenerator<BasicColumnSource> basicQueryableGenerator = new QueryableConfigurablePermutationGenerator<>();
+		CSVQueryablePermutationGeneratorTemplate csvQueryablePermutationGeneratorTemplate = new CSVQueryablePermutationGeneratorTemplate(confToml);
+		csvQueryablePermutationGeneratorTemplate.generate();
 
-		ColumnCriteriaBuilder.ColumnCriteria<BasicColumnSource> skipColumn1forNeymer = new ColumnCriteriaBuilder()
-			.setCriteriaColumn(Arrays.asList(column3))
-			.setPredicate((paths)-> paths.get(column3).equals("Neymer"))
-			.setSkippedColumn(Arrays.asList(column1)).build();
+	}
 
-		ColumnCriteriaBuilder.ColumnCriteria<BasicColumnSource> skipColumn1forMessi = new ColumnCriteriaBuilder()
-			.setCriteriaColumn(Arrays.asList(column3))
-			.setPredicate((paths)-> paths.get(column3).equals("messi"))
-			.setSkippedColumn(Arrays.asList(column1)).build();
-
-		basicQueryableGenerator.addSourceColumn(column1);
-		basicQueryableGenerator.addSourceColumn(column2);
-		basicQueryableGenerator.addSourceColumn(column3);
-		basicQueryableGenerator.addSourceColumn(column4);
-		basicQueryableGenerator.addColumnSkipCriteria(skipColumn1forNeymer);
-		basicQueryableGenerator.addColumnSkipCriteria(skipColumn1forMessi);
-		basicQueryableGenerator.generate(0);
-
+	public static Boolean parsedColumnHandler(JoyboyTriple<Object, ColumnCriteriaBuilder.LogicalOperator, Object> parsedCriteria)
+	{
+		Boolean leftOperand = parsedCriteria.getLeft() instanceof Boolean ? (Boolean) parsedCriteria.getLeft() : Boolean.valueOf(String.valueOf(parsedCriteria.getLeft()).trim());
+		Boolean rightOperand = parsedCriteria.getRight() instanceof Boolean ? (Boolean) parsedCriteria.getRight() : Boolean.valueOf(String.valueOf(parsedCriteria.getRight()).trim());
+		return parsedCriteria.getMiddle().equals(ColumnCriteriaBuilder.LogicalOperator.AND) ? leftOperand && rightOperand : leftOperand || rightOperand;
 	}
 }
