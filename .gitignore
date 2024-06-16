@@ -6,6 +6,8 @@ gradle/*
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+src/test/testoutputs/*
+
 ### IntelliJ IDEA ###
 .idea/*
 .idea/modules.xml
