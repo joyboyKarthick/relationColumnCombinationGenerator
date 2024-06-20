@@ -19,19 +19,44 @@ This Java library provides utilities to generate permutations from a given colum
    - Add the downloaded JAR file to your Java project's classpath.
 
 ## Usage
-1. **Initialize the Permutation Generator:**
+1. **Prepare the Column source for Permutation Generator:**
    ```java
-   // Example initialization
-   PermutationGenerator generator = new PermutationGenerator();
+        List<String> column1Source = Arrays.asList("app1","app2","app3");
+        BasicColumnSource<String, List<String>> basicColumn1Source= new BasicColumnSource(column1Source,"column1 source");
+        List<String> column2Source = Arrays.asList("resource1","resource2","resource3","resource4");
+        BasicColumnSource<String, List<String>> basicColumn2Source= new BasicColumnSource(column2Source,"column2 source");
+        List<String> column3Source = Arrays.asList("get","post","put","delete");
+        BasicColumnSource<String, List<String>> basicColumn3Source= new BasicColumnSource(column3Source,"column3 source");
    ```
 
 2. **Setup Column Source:**
    - Define your column source from which permutations will be generated.
-
-3. **Configure Skipping Criteria:**
+   ```java
+         ColumnCriteriaBuilder<BasicColumnSource<String,List<String>>> skipColum1ByColumn2 = new ColumnCriteriaBuilder<>()
+                .setCriteriaColumn(Arrays.asList(basicColumn2Source)).setSkippedColumn(Arrays.asList(basicColumn1Source));
+        skipColum1ByColumn2.setPredicate((row)->row.get(basicColumn2Source).equals("resource3"));
+   ```
+   
+3. **Initialize the Permutation Generator:**
+   ```java
+        QueryableConfigurablePermutationGenerator  queryableConfigurablePermutationGenerator = new QueryableConfigurablePermutationGenerator<BasicColumnSource>() {
+            @Override
+            public void destinationHook(Map paths) throws Exception {
+                System.out.println(paths.values());
+            }
+        };
+   ```
+      
+5. **Configure Skipping Criteria:**
    - Define criteria for skipping columns and combinations using appropriate methods provided by the library.
+   ```java
+        queryableConfigurablePermutationGenerator.addSourceColumns(Arrays.asList(basicColumn1Source,basicColumn2Source,basicColumn3Source)); //add column source
+        queryableConfigurablePermutationGenerator.addColumnSkipCriteria(skipColum1ByColumn2.build()); //add skip column criteria
+        queryableConfigurablePermutationGenerator.generate();
+   ```     
 
-4. **Generate Permutations:**
+6. **Generate Permutations:**
+   full generation sample code
    ```java
    // Example code to generate permutations
            // source columns
@@ -60,11 +85,11 @@ This Java library provides utilities to generate permutations from a given colum
 
    ```
 
-5. **Handle Output:**
+8. **Handle Output:**
    - By implement destinationHook Process or store generated permutations as required by your application.
 
 ## Example Code
-you can use extend or refer predefined template for your needs. 
+you can use, extend or refer predefined template for design your needs. 
 
 ```java
 
