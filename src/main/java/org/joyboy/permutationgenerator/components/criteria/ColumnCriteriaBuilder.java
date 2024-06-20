@@ -58,13 +58,13 @@ public class ColumnCriteriaBuilder<CS extends ColumnSource>
 		return predicate;
 	}
 
-	public ColumnCriteriaBuilder setPredicate(Predicate<Map<CS, Object>> predicate)
+	public ColumnCriteriaBuilder<CS> setPredicate(Predicate<Map<CS, Object>> predicate)
 	{
 		this.predicate = predicate;
 		return this;
 	}
 
-	public ColumnCriteria build()
+	public ColumnCriteria<CS> build()
 	{
 
 		return new ColumnCriteria(skippedColumn, criteriaColumn, getNullableCriteriaCheck(predicate, criteriaColumn));
