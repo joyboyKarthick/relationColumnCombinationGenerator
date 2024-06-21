@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,6 +30,12 @@ class QueryableConfigurablePermutationGeneratorTest {
                 .setCriteriaColumn(Arrays.asList(basicColumn2Source)).setSkippedColumn(Arrays.asList(basicColumn1Source));
         skipColum1ByColumn2.setPredicate((row)->row.get(basicColumn2Source).equals("resource3"));
 
+        Predicate<Map<BasicColumnSource,Object>> skipCombinationPredicate = (row)->row.get(basicColumn1Source).equals("app1");
+        skipCombinationPredicate = skipCombinationPredicate.and(row->row.get(basicColumn2Source).equals("resource1"));
+        ColumnCriteriaBuilder<BasicColumnSource<String,List<String>>> skipApp1AndResource4Combination = new ColumnCriteriaBuilder<>()
+                .setCriteriaColumn(Arrays.asList(basicColumn2Source,basicColumn1Source)).setPredicate(skipCombinationPredicate);
+
+
         QueryableConfigurablePermutationGenerator  queryableConfigurablePermutationGenerator = new QueryableConfigurablePermutationGenerator<BasicColumnSource>() {
             @Override
             public void destinationHook(Map paths) throws Exception {
@@ -38,6 +45,7 @@ class QueryableConfigurablePermutationGeneratorTest {
 
         queryableConfigurablePermutationGenerator.addSourceColumns(Arrays.asList(basicColumn1Source,basicColumn2Source,basicColumn3Source)); //add column source
         queryableConfigurablePermutationGenerator.addColumnSkipCriteria(skipColum1ByColumn2.build()); //add skip column criteria
+        queryableConfigurablePermutationGenerator.addSkipValueCriteria(skipApp1AndResource4Combination.build()); //add skip combination value criteria
         queryableConfigurablePermutationGenerator.generate();
 
 

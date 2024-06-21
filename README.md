@@ -19,7 +19,8 @@ This Java library provides utilities to generate permutations from a given colum
    - Add the downloaded JAR file to your Java project's classpath.
 
 ## Usage
-1. **Prepare the Column source for Permutation Generator:**
+1. **Setup Column Source:**
+   - Define your column source from which permutations will be generated.
    ```java
         List<String> column1Source = Arrays.asList("app1","app2","app3");
         BasicColumnSource<String, List<String>> basicColumn1Source= new BasicColumnSource(column1Source,"column1 source");
@@ -29,12 +30,17 @@ This Java library provides utilities to generate permutations from a given colum
         BasicColumnSource<String, List<String>> basicColumn3Source= new BasicColumnSource(column3Source,"column3 source");
    ```
 
-2. **Setup Column Source:**
-   - Define your column source from which permutations will be generated.
+2. **Create Skip Criteria:**
+  
    ```java
          ColumnCriteriaBuilder<BasicColumnSource<String,List<String>>> skipColum1ByColumn2 = new ColumnCriteriaBuilder<>()
                 .setCriteriaColumn(Arrays.asList(basicColumn2Source)).setSkippedColumn(Arrays.asList(basicColumn1Source));
         skipColum1ByColumn2.setPredicate((row)->row.get(basicColumn2Source).equals("resource3"));
+        
+        Predicate<Map<BasicColumnSource,Object>> skipCombinationPredicate = (row)->row.get(basicColumn1Source).equals("app1");
+        skipCombinationPredicate = skipCombinationPredicate.and(row->row.get(basicColumn2Source).equals("resource1"));
+        ColumnCriteriaBuilder<BasicColumnSource<String,List<String>>> skipApp1AndResource4Combination = new ColumnCriteriaBuilder<>()
+                .setCriteriaColumn(Arrays.asList(basicColumn2Source,basicColumn1Source)).setPredicate(skipCombinationPredicate);
    ```
    
 3. **Initialize the Permutation Generator:**
@@ -52,6 +58,7 @@ This Java library provides utilities to generate permutations from a given colum
    ```java
         queryableConfigurablePermutationGenerator.addSourceColumns(Arrays.asList(basicColumn1Source,basicColumn2Source,basicColumn3Source)); //add column source
         queryableConfigurablePermutationGenerator.addColumnSkipCriteria(skipColum1ByColumn2.build()); //add skip column criteria
+        queryableConfigurablePermutationGenerator.addSkipValueCriteria(skipApp1AndResource4Combination.build()); //add skip combination value criteria
         queryableConfigurablePermutationGenerator.generate();
    ```     
 
@@ -72,6 +79,11 @@ This Java library provides utilities to generate permutations from a given colum
                 .setCriteriaColumn(Arrays.asList(basicColumn2Source)).setSkippedColumn(Arrays.asList(basicColumn1Source));
         skipColum1ByColumn2.setPredicate((row)->row.get(basicColumn2Source).equals("resource3"));
         
+        Predicate<Map<BasicColumnSource,Object>> skipCombinationPredicate = (row)->row.get(basicColumn1Source).equals("app1");
+        skipCombinationPredicate = skipCombinationPredicate.and(row->row.get(basicColumn2Source).equals("resource1"));
+        ColumnCriteriaBuilder<BasicColumnSource<String,List<String>>> skipApp1AndResource4Combination = new ColumnCriteriaBuilder<>()
+                .setCriteriaColumn(Arrays.asList(basicColumn2Source,basicColumn1Source)).setPredicate(skipCombinationPredicate);
+        
         QueryableConfigurablePermutationGenerator  queryableConfigurablePermutationGenerator = new QueryableConfigurablePermutationGenerator<BasicColumnSource>() {
             @Override
             public void destinationHook(Map paths) throws Exception {
@@ -81,10 +93,49 @@ This Java library provides utilities to generate permutations from a given colum
 
         queryableConfigurablePermutationGenerator.addSourceColumns(Arrays.asList(basicColumn1Source,basicColumn2Source,basicColumn3Source)); //add column source
         queryableConfigurablePermutationGenerator.addColumnSkipCriteria(skipColum1ByColumn2.build()); //add skip column criteria
+        queryableConfigurablePermutationGenerator.addSkipValueCriteria(skipApp1AndResource4Combination.build()); //add skip combination value criteria
         queryableConfigurablePermutationGenerator.generate();
 
    ```
-
+7.program output
+    ``` 
+    [resource3, get]
+    [resource3, post]
+    [resource3, put]
+    [resource3, delete]
+    [app1, resource2, get]
+    [app1, resource2, post]
+    [app1, resource2, put]
+    [app1, resource2, delete]
+    [app1, resource4, get]
+    [app1, resource4, post]
+    [app1, resource4, put]
+    [app1, resource4, delete]
+    [app2, resource1, get]
+    [app2, resource1, post]
+    [app2, resource1, put]
+    [app2, resource1, delete]
+    [app2, resource2, get]
+    [app2, resource2, post]
+    [app2, resource2, put]
+    [app2, resource2, delete]
+    [app2, resource4, get]
+    [app2, resource4, post]
+    [app2, resource4, put]
+    [app2, resource4, delete]
+    [app3, resource1, get]
+    [app3, resource1, post]
+    [app3, resource1, put]
+    [app3, resource1, delete]
+    [app3, resource2, get]
+    [app3, resource2, post]
+    [app3, resource2, put]
+    [app3, resource2, delete]
+    [app3, resource4, get]
+    [app3, resource4, post]
+    [app3, resource4, put]
+    [app3, resource4, delete]
+    ```
 8. **Handle Output:**
    - By implement destinationHook Process or store generated permutations as required by your application.
 
