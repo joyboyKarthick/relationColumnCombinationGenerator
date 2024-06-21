@@ -137,7 +137,7 @@ This Java library provides utilities to generate permutations from a given colum
     [app3, resource4, delete]
 
 8. **Handle Output:**
-   - By implement destinationHook Process or store generated permutations as required by your application.
+   - By implement destinationHook. Process or store generated permutations as required by your application.
 
 ## Example Code
 you can use, extend or refer predefined template for design your needs. 
