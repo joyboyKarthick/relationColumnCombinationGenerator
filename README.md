@@ -98,7 +98,7 @@ This Java library provides utilities to generate permutations from a given colum
 
    ```
 7.program output
-    ``` 
+
     [resource3, get]
     [resource3, post]
     [resource3, put]
@@ -135,7 +135,7 @@ This Java library provides utilities to generate permutations from a given colum
     [app3, resource4, post]
     [app3, resource4, put]
     [app3, resource4, delete]
-    ```
+
 8. **Handle Output:**
    - By implement destinationHook Process or store generated permutations as required by your application.
 
