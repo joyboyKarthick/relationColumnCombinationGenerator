@@ -1,4 +1,4 @@
-package org.joyboy.permutationgenerator.components.columnsources;
+package org.joyboy.combinationgenerator.components.columnsources;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

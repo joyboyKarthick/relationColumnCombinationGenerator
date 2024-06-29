@@ -1,16 +1,13 @@
-package org.joyboy.permutationgenerator.components.generators;
+package org.joyboy.combinationgenerator.components.generators;
 
-import org.joyboy.permutationgenerator.components.columnsources.BasicColumnSource;
-import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.combinationgenerator.components.columnsources.BasicColumnSource;
+import org.joyboy.combinationgenerator.components.criteria.ColumnCriteriaBuilder;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class QueryableConfigurablePermutationGeneratorTest {
 
@@ -31,7 +28,7 @@ class QueryableConfigurablePermutationGeneratorTest {
         skipColum1ByColumn2.setPredicate((row)->row.get(basicColumn2Source).equals("resource3"));
 
         Predicate<Map<BasicColumnSource,Object>> skipCombinationPredicate = (row)->row.get(basicColumn1Source).equals("app1");
-        skipCombinationPredicate = skipCombinationPredicate.and(row->row.get(basicColumn2Source).equals("resource1"));
+        skipCombinationPredicate = skipCombinationPredicate.and(row->row.get(basicColumn2Source).equals("resource4"));
         ColumnCriteriaBuilder<BasicColumnSource<String,List<String>>> skipApp1AndResource4Combination = new ColumnCriteriaBuilder<>()
                 .setCriteriaColumn(Arrays.asList(basicColumn2Source,basicColumn1Source)).setPredicate(skipCombinationPredicate);
 

@@ -1,12 +1,12 @@
-package org.joyboy.permutationgenerator.components.Handler;
+package org.joyboy.combinationgenerator.components.Handler;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.joyboy.permutationgenerator.components.columnsources.CSVColumnSource;
-import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
-import org.joyboy.permutationgenerator.components.generators.QueryableConfigurablePermutationGenerator;
+import org.joyboy.combinationgenerator.components.columnsources.CSVColumnSource;
+import org.joyboy.combinationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.combinationgenerator.components.generators.QueryableConfigurablePermutationGenerator;
 
 public class CSVPermutationGenerationHandler
 {

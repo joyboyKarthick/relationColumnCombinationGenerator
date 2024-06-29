@@ -1,4 +1,4 @@
-package org.joyboy.permutationgenerator.components.generators;
+package org.joyboy.combinationgenerator.components.generators;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.joyboy.permutationgenerator.components.columnsources.ColumnSource;
+import org.joyboy.combinationgenerator.components.columnsources.ColumnSource;
 import org.joyboy.utils.JoyboyUtils;
 
 public abstract class ConfigurablePermutationGenerator<CS extends ColumnSource> implements PermutationGenerator<CS>
@@ -37,12 +37,13 @@ public abstract class ConfigurablePermutationGenerator<CS extends ColumnSource> 
 				{
 					continue;
 				}
-				LinkedHashMap<CS, Object> currentPath = JoyboyUtils.consume(new LinkedHashMap<>(), c -> c.putAll(paths), c -> c.put(sourceList.get(index), columnValue));
+				paths.put(sourceList.get(index),columnValue);
 				if(skipPatternMap.isPresent() && skipPatternMap.get().getOrDefault(sourceList.get(index), new ArrayList<>()).stream().anyMatch(predicate -> predicate.test(paths)))
 				{
 					continue;
 				}
-				_generate(index + 1, currentPath, permutationKey + index);
+				_generate(index + 1, paths, permutationKey + index);
+				paths.remove(sourceList.get(index));
 			}
 		}
 		if(index >= sourceList.size())

@@ -1,10 +1,10 @@
-package org.joyboy.permutationgenerator.templates;
+package org.joyboy.combinationgenerator.templates;
 
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
-import org.joyboy.permutationgenerator.components.columnsources.CSVColumnSource;
+import org.joyboy.combinationgenerator.components.columnsources.CSVColumnSource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

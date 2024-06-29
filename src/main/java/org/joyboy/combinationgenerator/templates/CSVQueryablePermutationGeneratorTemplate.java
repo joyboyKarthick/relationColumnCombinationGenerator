@@ -1,4 +1,4 @@
-package org.joyboy.permutationgenerator.templates;
+package org.joyboy.combinationgenerator.templates;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 import org.joyboy.exceptions.JoyBoyException;
 import org.joyboy.joyboydatastructures.JoyboyTriple;
-import org.joyboy.permutationgenerator.components.Handler.CSVPermutationGenerationHandler;
-import org.joyboy.permutationgenerator.components.columnsources.CSVColumnSource;
-import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.combinationgenerator.components.Handler.CSVPermutationGenerationHandler;
+import org.joyboy.combinationgenerator.components.columnsources.CSVColumnSource;
+import org.joyboy.combinationgenerator.components.criteria.ColumnCriteriaBuilder;
 import org.joyboy.utils.JoyboyCsvUtils;
 import org.joyboy.utils.JoyboyUtils;
 

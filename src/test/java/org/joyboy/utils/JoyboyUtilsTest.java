@@ -1,13 +1,11 @@
 package org.joyboy.utils;
 
 import org.joyboy.joyboydatastructures.JoyboyTriple;
-import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.combinationgenerator.components.criteria.ColumnCriteriaBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JoyboyUtilsTest {
 

@@ -1,8 +1,8 @@
-package org.joyboy.permutationgenerator.components.generators;
+package org.joyboy.combinationgenerator.components.generators;
 
 import java.util.Map;
 
-import org.joyboy.permutationgenerator.components.columnsources.ColumnSource;
+import org.joyboy.combinationgenerator.components.columnsources.ColumnSource;
 
 public interface PermutationGenerator<CS extends ColumnSource>
 {

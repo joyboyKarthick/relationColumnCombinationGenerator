@@ -1,4 +1,4 @@
-package org.joyboy.permutationgenerator.components.generators;
+package org.joyboy.combinationgenerator.components.generators;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import org.joyboy.exceptions.JoyBoyException;
-import org.joyboy.permutationgenerator.components.columnsources.ColumnSource;
-import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.combinationgenerator.components.columnsources.ColumnSource;
+import org.joyboy.combinationgenerator.components.criteria.ColumnCriteriaBuilder;
 import org.joyboy.utils.JoyboyUtils;
 
 public abstract class QueryableConfigurablePermutationGenerator<CS extends ColumnSource> implements PermutationGenerator<CS>
@@ -108,16 +108,17 @@ public abstract class QueryableConfigurablePermutationGenerator<CS extends Colum
 			_generate(index + 1, paths, permutationKey);
 			for(Object columnValue : sourceList.get(index).getColumnValues())
 			{
-				LinkedHashMap<CS, Object> currentPath = JoyboyUtils.consume(new LinkedHashMap<>(), c -> c.putAll(paths), c -> c.put(sourceList.get(index), columnValue));
-				if(skipColumnCriteria.containsKey(sourceList.get(index)) && skipColumnCriteria.get(sourceList.get(index)).test(currentPath))
+				paths.put(sourceList.get(index),columnValue);
+				if(skipColumnCriteria.containsKey(sourceList.get(index)) && skipColumnCriteria.get(sourceList.get(index)).test(paths))
 				{
 					continue;
 				}
-				if(skipValueMap.containsKey(sourceList.get(index)) && skipValueMap.get(sourceList.get(index)).test(currentPath))
+				if(skipValueMap.containsKey(sourceList.get(index)) && skipValueMap.get(sourceList.get(index)).test(paths))
 				{
 					continue;
 				}
-				_generate(index + 1, currentPath, permutationKey + index);
+				_generate(index + 1, paths, permutationKey + index);
+				paths.remove(sourceList.get(index));
 			}
 		}
 

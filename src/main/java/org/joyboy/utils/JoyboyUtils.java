@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.joyboy.joyboydatastructures.JoyboyTriple;
-import org.joyboy.permutationgenerator.components.criteria.ColumnCriteriaBuilder;
+import org.joyboy.combinationgenerator.components.criteria.ColumnCriteriaBuilder;
 
 public class JoyboyUtils
 {

@@ -1,8 +1,6 @@
-package org.joyboy.permutationgenerator.templates;
+package org.joyboy.combinationgenerator.templates;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CSVQueryablePermutationGeneratorTemplateTest {
 

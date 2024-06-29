@@ -1,11 +1,11 @@
-package org.joyboy.permutationgenerator.components.criteria;
+package org.joyboy.combinationgenerator.components.criteria;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.joyboy.permutationgenerator.components.columnsources.ColumnSource;
+import org.joyboy.combinationgenerator.components.columnsources.ColumnSource;
 
 public class ColumnCriteriaBuilder<CS extends ColumnSource>
 {
